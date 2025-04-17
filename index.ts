@@ -1,21 +1,27 @@
+// server.ts
 import express from 'express';
+import type { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import { Queue } from 'bullmq';
-import IORedis from 'ioredis';
+import { emailQueue } from './queues/emailQueue';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-const connection = new IORedis();
-const emailQueue = new Queue('emailQueue', { connection });
+interface EmailRequest {
+  to: string;
+  type: string;
+  data: Record<string, any>;
+}
 
-app.post('/enqueue-email', async (req, res) => {
+// Fixed route handler to conform to Express 5 typing requirements
+app.route('/enqueue-email').post(async (req: Request<{}, {}, EmailRequest>, res: Response) => {
   const { to, type, data } = req.body;
 
   if (!to || !type || !data) {
-    return res.status(400).json({ error: 'Missing required fields: to, type, or data.' });
+    res.status(400).json({ error: 'Missing required fields: to, type, or data.' });
+    return;
   }
 
   try {

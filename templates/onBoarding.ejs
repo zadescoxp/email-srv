@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to <%= companyName %></title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .logo {
+      max-width: 150px;
+      margin-bottom: 10px;
+    }
+    .welcome-box {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    .welcome-message {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .welcome-message h1 {
+      color: #2d3748;
+      margin-bottom: 10px;
+    }
+    .welcome-message p {
+      font-size: 18px;
+      color: #4a5568;
+    }
+    .user-details {
+      background-color: #e6f7ff;
+      border-left: 4px solid #1890ff;
+      padding: 15px;
+      margin-bottom: 25px;
+    }
+    .next-steps {
+      margin-bottom: 25px;
+    }
+    .step {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: flex-start;
+    }
+    .step-number {
+      background-color: #1890ff;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    .step-content {
+      flex: 1;
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+    .feature {
+      flex-basis: 48%;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .feature h3 {
+      color: #2d3748;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .cta-button {
+      display: block;
+      background-color: #1890ff;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin: 30px auto;
+      width: 200px;
+    }
+    .help-section {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #6c757d;
+      border-top: 1px solid #dee2e6;
+      padding-top: 20px;
+    }
+    .social-links {
+      margin: 15px 0;
+    }
+    .social-links a {
+      display: inline-block;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    @media only screen and (max-width: 480px) {
+      .feature {
+        flex-basis: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <% if (companyLogo) { %>
+      <img src="<%= companyLogo %>" alt="<%= companyName %> Logo" class="logo">
+    <% } %>
+    <h1><%= companyName %></h1>
+  </div>
+
+  <div class="welcome-box">
+    <div class="welcome-message">
+      <h1>Welcome, <%= firstName %>!</h1>
+      <p>We're thrilled to have you with us.</p>
+    </div>
+
+    <% if (accountDetails) { %>
+      <div class="user-details">
+        <p><strong>Your Account:</strong> <%= accountType %></p>
+        <p><strong>Username:</strong> <%= username %></p>
+        <p><strong>Account Created:</strong> <%= accountCreationDate %></p>
+      </div>
+    <% } %>
+
+    <p>Thank you for joining <%= companyName %>. We're excited to help you <%= mainBenefit %>. Your journey with us begins now, and we've prepared some information to help you get started.</p>
+
+    <div class="next-steps">
+      <h2>Getting Started: Next Steps</h2>
+      
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Complete Your Profile</h3>
+          <p>Add your details and preferences to personalize your experience with us.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3><%= step2Title || 'Explore Our Features' %></h3>
+          <p><%= step2Description || 'Discover all the tools and resources available to you.' %></p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3><%= step3Title || 'Connect With Our Community' %></h3>
+          <p><%= step3Description || 'Join our community forums and connect with other users.' %></p>
+        </div>
+      </div>
+    </div>
+
+    <% if (features && features.length > 0) { %>
+      <div class="features">
+        <h2>Key Features You'll Love</h2>
+        
+        <% features.forEach(feature => { %>
+          <div class="feature">
+            <h3><%= feature.title %></h3>
+            <p><%= feature.description %></p>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+
+    <a href="<%= ctaLink %>" class="cta-button"><%= ctaText || 'Get Started Now' %></a>
+
+    <div class="help-section">
+      <h2>Need Help?</h2>
+      <p>Our support team is ready to assist you. Feel free to reach out if you have any questions.</p>
+      <% if (supportEmail) { %>
+        <p><strong>Email:</strong> <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a></p>
+      <% } %>
+      <% if (supportPhone) { %>
+        <p><strong>Phone:</strong> <%= supportPhone %></p>
+      <% } %>
+      <% if (helpCenterLink) { %>
+        <p><a href="<%= helpCenterLink %>">Visit our Help Center</a></p>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="footer">
+    <% if (socialLinks) { %>
+      <div class="social-links">
+        <% if (socialLinks.twitter) { %>
+          <a href="<%= socialLinks.twitter %>">Twitter</a>
+        <% } %>
+        <% if (socialLinks.facebook) { %>
+          <a href="<%= socialLinks.facebook %>">Facebook</a>
+        <% } %>
+        <% if (socialLinks.linkedin) { %>
+          <a href="<%= socialLinks.linkedin %>">LinkedIn</a>
+        <% } %>
+        <% if (socialLinks.instagram) { %>
+          <a href="<%= socialLinks.instagram %>">Instagram</a>
+        <% } %>
+      </div>
+    <% } %>
+    <p>&copy; <%= new Date().getFullYear() %> <%= companyName %>. All rights reserved.</p>
+    <% if (companyAddress) { %>
+      <p><%= companyAddress %></p>
+    <% } %>
+    <% if (unsubscribeLink) { %>
+      <p><small><a href="<%= unsubscribeLink %>">Unsubscribe</a> | <a href="<%= privacyPolicyLink %>">Privacy Policy</a></small></p>
+    <% } %>
+  </div>
+</body>
+</html>
+
+<!-- Example data for this template:
+{
+  companyName: "YourCompany",
+  companyLogo: "https://example.com/logo.png",
+  firstName: "John",
+  
+  accountDetails: true,
+  accountType: "Premium",
+  username: "john_doe",
+  accountCreationDate: "April 17, 2025",
+  
+  mainBenefit: "streamline your workflow",
+  
+  step2Title: "Import Your Data",
+  step2Description: "Transfer your existing data and get up and running in minutes.",
+  step3Title: "Schedule a Demo",
+  step3Description: "Book a one-on-one session with our product specialists.",
+  
+  features: [
+    {
+      title: "Cloud Storage",
+      description: "Access your files from anywhere, anytime."
+    },
+    {
+      title: "Team Collaboration",
+      description: "Work together seamlessly with your team."
+    },
+    {
+      title: "Advanced Analytics",
+      description: "Gain insights from comprehensive reports."
+    },
+    {
+      title: "Mobile Access",
+      description: "Stay productive on the go with our mobile app."
+    }
+  ],
+  
+  ctaLink: "https://example.com/dashboard",
+  ctaText: "Access Your Account",
+  
+  supportEmail: "support@yourcompany.com",
+  supportPhone: "+1 (555) 123-4567",
+  helpCenterLink: "https://help.yourcompany.com",
+  
+  socialLinks: {
+    twitter: "https://twitter.com/yourcompany",
+    facebook: "https://facebook.com/yourcompany",
+    linkedin: "https://linkedin.com/company/yourcompany",
+    instagram: "https://instagram.com/yourcompany"
+  },
+  
+  companyAddress: "123 Main Street, City, Country",
+  unsubscribeLink: "https://example.com/unsubscribe?id=123456",
+  privacyPolicyLink: "https://example.com/privacy"
+}
+-->

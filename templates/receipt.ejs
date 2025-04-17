@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Receipt</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .logo {
+      max-width: 150px;
+      margin-bottom: 10px;
+    }
+    .receipt-box {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    .receipt-header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #dee2e6;
+      margin-bottom: 20px;
+    }
+    .receipt-header h1 {
+      color: #2d3748;
+      margin: 0 0 10px 0;
+    }
+    .receipt-details {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+    .receipt-id {
+      flex: 1;
+    }
+    .receipt-date {
+      text-align: right;
+      flex: 1;
+    }
+    .payment-status {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    .status-success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    .customer-info {
+      margin-bottom: 25px;
+    }
+    .divider {
+      border-top: 1px solid #dee2e6;
+      margin: 20px 0;
+    }
+    .transaction-details {
+      margin-bottom: 25px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e9ecef;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .amount-row {
+      text-align: right;
+    }
+    .amount-row td {
+      padding: 8px 12px;
+    }
+    .total-row {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .payment-method {
+      background-color: #e6f7ff;
+      border-left: 4px solid #1890ff;
+      padding: 15px;
+      margin-bottom: 25px;
+    }
+    .note {
+      background-color: #fafafa;
+      padding: 15px;
+      border-radius: 6px;
+      font-style: italic;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #6c757d;
+      border-top: 1px solid #dee2e6;
+      padding-top: 20px;
+    }
+    .download-link {
+      display: inline-block;
+      color: #1890ff;
+      text-decoration: none;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <% if (companyLogo) { %>
+      <img src="<%= companyLogo %>" alt="<%= companyName %> Logo" class="logo">
+    <% } %>
+    <h2><%= companyName %></h2>
+  </div>
+
+  <div class="receipt-box">
+    <div class="receipt-header">
+      <h1>Payment Receipt</h1>
+      <span class="payment-status status-<%= paymentStatus === 'Successful' ? 'success' : 'pending' %>">
+        <%= paymentStatus %>
+      </span>
+    </div>
+
+    <div class="receipt-details">
+      <div class="receipt-id">
+        <p><strong>Receipt #:</strong> <%= receiptNumber %></p>
+        <p><strong>Order Reference:</strong> <%= orderReference || 'N/A' %></p>
+      </div>
+      <div class="receipt-date">
+        <p><strong>Date:</strong> <%= paymentDate %></p>
+        <p><strong>Time:</strong> <%= paymentTime %></p>
+      </div>
+    </div>
+
+    <div class="customer-info">
+      <h3>Customer Information</h3>
+      <p><strong>Name:</strong> <%= customerName %></p>
+      <p><strong>Email:</strong> <%= customerEmail %></p>
+      <% if (customerPhone) { %>
+        <p><strong>Phone:</strong> <%= customerPhone %></p>
+      <% } %>
+      <% if (billingAddress) { %>
+        <p><strong>Billing Address:</strong><br>
+          <%= billingAddress.line1 %><br>
+          <% if (billingAddress.line2) { %><%= billingAddress.line2 %><br><% } %>
+          <%= billingAddress.city %>, <%= billingAddress.state %> <%= billingAddress.postalCode %><br>
+          <%= billingAddress.country %>
+        </p>
+      <% } %>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="transaction-details">
+      <h3>Transaction Details</h3>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach(item => { %>
+            <tr>
+              <td><%= item.name %></td>
+              <td><%= item.description %></td>
+              <td><%= item.quantity %></td>
+              <td><%= currency %><%= (item.quantity * item.price).toFixed(2) %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <table class="amount-summary">
+        <tr class="amount-row">
+          <td colspan="3" style="text-align: right;"><strong>Subtotal:</strong></td>
+          <td><%= currency %><%= subtotal.toFixed(2) %></td>
+        </tr>
+        <% if (tax > 0) { %>
+          <tr class="amount-row">
+            <td colspan="3" style="text-align: right;"><strong>Tax (<%= taxRate %>%):</strong></td>
+            <td><%= currency %><%= tax.toFixed(2) %></td>
+          </tr>
+        <% } %>
+        <% if (discount > 0) { %>
+          <tr class="amount-row">
+            <td colspan="3" style="text-align: right;"><strong>Discount:</strong></td>
+            <td>-<%= currency %><%= discount.toFixed(2) %></td>
+          </tr>
+        <% } %>
+        <tr class="amount-row total-row">
+          <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+          <td><strong><%= currency %><%= total.toFixed(2) %></strong></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="payment-method">
+      <h3>Payment Method</h3>
+      <p><strong>Method:</strong> <%= paymentMethod %></p>
+      <% if (paymentMethod === 'Credit Card') { %>
+        <p><strong>Card:</strong> <%= cardType %> •••• <%= lastFourDigits %></p>
+      <% } else if (paymentMethod === 'Bank Transfer') { %>
+        <p><strong>Bank:</strong> <%= bankName %></p>
+        <p><strong>Transaction ID:</strong> <%= transactionId %></p>
+      <% } %>
+    </div>
+
+    <% if (note) { %>
+      <div class="note">
+        <p><strong>Note:</strong> <%= note %></p>
+      </div>
+    <% } %>
+
+    <% if (downloadLink) { %>
+      <div style="text-align: center;">
+        <a href="<%= downloadLink %>" class="download-link">Download PDF Receipt</a>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="footer">
+    <p>Thank you for your payment!</p>
+    <p>If you have any questions regarding this receipt, please contact our support team.</p>
+    <% if (supportEmail) { %>
+      <p><a href="mailto:<%= supportEmail %>"><%= supportEmail %></a></p>
+    <% } %>
+    <p>&copy; <%= new Date().getFullYear() %> <%= companyName %>. All rights reserved.</p>
+  </div>
+</body>
+</html>
+
+<!-- Example data for this template:
+{
+  companyName: "YourCompany",
+  companyLogo: "https://example.com/logo.png",
+
+  receiptNumber: "RCP-2025-0042",
+  orderReference: "ORD-2025-0123",
+  paymentDate: "April 17, 2025",
+  paymentTime: "14:35:22 UTC",
+  paymentStatus: "Successful", // or "Pending"
+
+  customerName: "John Doe",
+  customerEmail: "john.doe@example.com",
+  customerPhone: "+1 (555) 123-4567", // optional
+
+  billingAddress: { // optional
+    line1: "123 Main Street",
+    line2: "Apt 4B", // optional
+    city: "Anytown",
+    state: "State",
+    postalCode: "12345",
+    country: "United States"
+  },
+
+  currency: "$",
+  items: [
+    {
+      name: "Premium Subscription",
+      description: "Monthly premium plan",
+      quantity: 1,
+      price: 29.99
+    },
+    {
+      name: "Add-on Service",
+      description: "Additional storage",
+      quantity: 1,
+      price: 9.99
+    }
+  ],
+
+  subtotal: 39.98,
+  taxRate: 8.25, // percentage, optional
+  tax: 3.30,
+  discount: 5.00, // optional
+  total: 38.28,
+
+  paymentMethod: "Credit Card", // or "PayPal", "Bank Transfer", etc.
+  cardType: "Visa", // for Credit Card
+  lastFourDigits: "4242", // for Credit Card
+  bankName: "Example Bank", // for Bank Transfer
+  transactionId: "TXN123456789", // for any payment method
+
+  note: "Your subscription will automatically renew on May 17, 2025.", // optional
+  downloadLink: "https://example.com/receipts/RCP-2025-0042.pdf", // optional
+  supportEmail: "support@yourcompany.com" // optional
+}
+-->
