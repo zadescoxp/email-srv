@@ -1,4 +1,4 @@
-// server.ts
+
 import express from 'express';
 import type { Request, Response } from 'express';
 import bodyParser from 'body-parser';
@@ -15,7 +15,6 @@ interface EmailRequest {
   data: Record<string, any>;
 }
 
-// Fixed route handler to conform to Express 5 typing requirements
 app.route('/enqueue-email').post(async (req: Request<{}, {}, EmailRequest>, res: Response) => {
   const { to, type, data } = req.body;
 
