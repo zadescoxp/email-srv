@@ -30,7 +30,6 @@ app.route('/enqueue-email').post(async (req: Request<{}, {}, EmailRequest>, res:
 
   try {
     
-    // Create a timeout for the queue operation
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(() => reject(new Error('Redis operation timed out after 15000ms')), 15000);
     });
@@ -45,7 +44,6 @@ app.route('/enqueue-email').post(async (req: Request<{}, {}, EmailRequest>, res:
       removeOnFail: false
     });
     
-    // Race between the actual operation and the timeout with proper typing
     const job = await Promise.race([queuePromise, timeoutPromise]) as Job;
     
     console.log(`✅ Server: Email job successfully added with ID: ${job.id}`);
@@ -54,7 +52,6 @@ app.route('/enqueue-email').post(async (req: Request<{}, {}, EmailRequest>, res:
     const errorMessage = error?.message || 'Unknown error';
     console.error(`❌ Server: Error enqueuing email job: ${errorMessage}`);
     
-    // Check if it's a timeout or connection error
     if (errorMessage.includes('timed out') || errorMessage.includes('ECONNREFUSED') || 
         errorMessage.includes('connection') || errorMessage.includes('connect')) {
       res.status(503).json({ 
