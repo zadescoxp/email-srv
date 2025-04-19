@@ -1,7 +1,10 @@
-import { Worker } from 'bullmq';
-import { bullmqRedis } from '../config/bullmqRedis';
+import { Worker, Job } from 'bullmq';
+import { bullmqConnection } from '../config/redis';
 import { Resend } from 'resend';
 import { renderTemplate } from '../utils/renderTemplate';
+
+console.log('📬 Email Worker: Initializing with Upstash Redis connection');
+console.log('🔑 Email Worker: Checking for Resend API key:', process.env.RESEND_API_KEY ? 'Key is set' : 'Key is missing!');
 
 const resend = new Resend(process.env.RESEND_API_KEY || '');
 
@@ -11,27 +14,40 @@ const subjectMap: Record<string, string> = {
   receipt: 'Payment Receipt',
 };
 
+console.log('👷 Email Worker: Creating worker instance for queue: emailQueue');
+
 const emailWorker = new Worker(
   'emailQueue',
   async (job) => {
-    const { to, type, data } = job.data;
+    
+    try {
+      const { to, type, data } = job.data;
 
-    const html = await renderTemplate(type, data);
+      const html = await renderTemplate(type, data);
 
-    const subject = subjectMap[type] || 'Notification';
+      const subject = subjectMap[type] || 'Notification';
 
-    const { error } = await resend.emails.send({
-      from: '<suarhokya123@gmail.com>', 
-      to,
-      subject,
-      html,
-    });
+      const result = await resend.emails.send({
+        from: '<suarhokya123@gmail.com>', 
+        to,
+        subject,
+        html,
+      });
 
-    if (error) {
-      throw new Error(`Failed to send email: ${error.message}`);
+      if (result.error) {
+        console.error(`❌ Email Worker: Failed to send email: ${result.error.message}`);
+        throw new Error(`Failed to send email: ${result.error.message}`);
+      }
+
+      console.log(`✅ Email Worker: Email of type '${type}' sent to ${to} successfully`);
+      return { success: true, messageId: result.data?.id };
+    } catch (error) {
+      console.error('❌ Email Worker: Error processing job:', error);
+      throw error; 
     }
-
-    console.log(`Email of type '${type}' sent to ${to}`);
   },
-  { connection: bullmqRedis }
+  { 
+    connection: bullmqConnection,
+    concurrency: 5,
+  }
 );
