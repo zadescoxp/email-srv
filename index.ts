@@ -2,8 +2,8 @@ import "dotenv/config";
 import express from "express";
 import type { Request, Response } from "express";
 import bodyParser from "body-parser";
-import { addEmailToQueue, EmailJob } from "./queues/emailQueue";
-import { connectRabbitMQ, closeConnection } from "./config/rabbitmq";
+import { addEmailToQueue, EmailJob } from "./queues/emailQueue.js";
+import { connectRabbitMQ, closeConnection } from "./config/rabbitmq.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
