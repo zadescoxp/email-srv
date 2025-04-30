@@ -74,9 +74,21 @@ curl -X POST http://localhost:3000/enqueue-email \
     "type": "onboarding",
     "data": {
       "name": "John Doe",
-      "companyName": "Acme Corp"
+      "email": "johndoe@example.com"
     }
   }'
+```
+
+For Windows Command Prompt:
+
+```
+curl -X POST http://localhost:3000/enqueue-email -H "Content-Type: application/json" -d "{\"to\":\"recipient@example.com\",\"type\":\"onboarding\",\"data\":{\"name\":\"John Doe\",\"email\":\"johndoe@example.com\"}}"
+```
+
+For PowerShell:
+
+```powershell
+Invoke-WebRequest -Uri "http://localhost:3000/enqueue-email" -Method POST -Headers @{"Content-Type"="application/json"} -Body '{"to":"recipient@example.com","type":"onboarding","data":{"name":"John Doe","email":"johndoe@example.com"}}'
 ```
 
 ## Email Templates

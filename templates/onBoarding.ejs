@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to <%= companyName %></title>
+  <title>Welcome to Paycrypt</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -131,27 +131,21 @@
 </head>
 <body>
   <div class="header">
-    <% if (companyLogo) { %>
-      <img src="<%= companyLogo %>" alt="<%= companyName %> Logo" class="logo">
-    <% } %>
-    <h1><%= companyName %></h1>
+    <img src="https://via.placeholder.com/150x50?text=Paycrypt" alt="Paycrypt Logo" class="logo">
+    <h1>Paycrypt</h1>
   </div>
 
   <div class="welcome-box">
     <div class="welcome-message">
-      <h1>Welcome, <%= firstName %>!</h1>
       <p>We're thrilled to have you with us.</p>
     </div>
 
-    <% if (accountDetails) { %>
-      <div class="user-details">
-        <p><strong>Your Account:</strong> <%= accountType %></p>
-        <p><strong>Username:</strong> <%= username %></p>
-        <p><strong>Account Created:</strong> <%= accountCreationDate %></p>
-      </div>
-    <% } %>
+    <div class="user-details">
+      <p><strong>Account Type:</strong> Standard</p>
+      <p><strong>Account Created:</strong> April 29, 2025</p>
+    </div>
 
-    <p>Thank you for joining <%= companyName %>. We're excited to help you <%= mainBenefit %>. Your journey with us begins now, and we've prepared some information to help you get started.</p>
+    <p>Thank you for joining Paycrypt. We're excited to help you streamline your payments. Your journey with us begins now, and we've prepared some information to help you get started.</p>
 
     <div class="next-steps">
       <h2>Getting Started: Next Steps</h2>
@@ -167,131 +161,65 @@
       <div class="step">
         <div class="step-number">2</div>
         <div class="step-content">
-          <h3><%= step2Title || 'Explore Our Features' %></h3>
-          <p><%= step2Description || 'Discover all the tools and resources available to you.' %></p>
+          <h3>Set Up Payment Methods</h3>
+          <p>Add your preferred payment methods to get started with transactions.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step-number">3</div>
         <div class="step-content">
-          <h3><%= step3Title || 'Connect With Our Community' %></h3>
-          <p><%= step3Description || 'Join our community forums and connect with other users.' %></p>
+          <h3>Make Your First Transaction</h3>
+          <p>Experience the simplicity and security of Paycrypt payments.</p>
         </div>
       </div>
     </div>
 
-    <% if (features && features.length > 0) { %>
-      <div class="features">
-        <h2>Key Features You'll Love</h2>
-        
-        <% features.forEach(feature => { %>
-          <div class="feature">
-            <h3><%= feature.title %></h3>
-            <p><%= feature.description %></p>
-          </div>
-        <% }); %>
+    <div class="features">
+      <h2>Key Features You'll Love</h2>
+      
+      <div class="feature">
+        <h3>Secure Payments</h3>
+        <p>Industry-leading security for all your transactions.</p>
       </div>
-    <% } %>
+      
+      <div class="feature">
+        <h3>Easy Integration</h3>
+        <p>Connect with your favorite services and platforms.</p>
+      </div>
+      
+      <div class="feature">
+        <h3>Real-time Tracking</h3>
+        <p>Monitor all your payment activities in real-time.</p>
+      </div>
+      
+      <div class="feature">
+        <h3>Mobile Access</h3>
+        <p>Stay productive on the go with our mobile app.</p>
+      </div>
+    </div>
 
-    <a href="<%= ctaLink %>" class="cta-button"><%= ctaText || 'Get Started Now' %></a>
+    <a href="https://paycrypt.com/dashboard" class="cta-button">Get Started Now</a>
 
     <div class="help-section">
       <h2>Need Help?</h2>
       <p>Our support team is ready to assist you. Feel free to reach out if you have any questions.</p>
-      <% if (supportEmail) { %>
-        <p><strong>Email:</strong> <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a></p>
-      <% } %>
-      <% if (supportPhone) { %>
-        <p><strong>Phone:</strong> <%= supportPhone %></p>
-      <% } %>
-      <% if (helpCenterLink) { %>
-        <p><a href="<%= helpCenterLink %>">Visit our Help Center</a></p>
-      <% } %>
+      <p><strong>Email:</strong> <a href="mailto:support@paycrypt.com">support@paycrypt.com</a></p>
+      <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+      <p><a href="https://help.paycrypt.com">Visit our Help Center</a></p>
     </div>
   </div>
 
   <div class="footer">
-    <% if (socialLinks) { %>
-      <div class="social-links">
-        <% if (socialLinks.twitter) { %>
-          <a href="<%= socialLinks.twitter %>">Twitter</a>
-        <% } %>
-        <% if (socialLinks.facebook) { %>
-          <a href="<%= socialLinks.facebook %>">Facebook</a>
-        <% } %>
-        <% if (socialLinks.linkedin) { %>
-          <a href="<%= socialLinks.linkedin %>">LinkedIn</a>
-        <% } %>
-        <% if (socialLinks.instagram) { %>
-          <a href="<%= socialLinks.instagram %>">Instagram</a>
-        <% } %>
-      </div>
-    <% } %>
-    <p>&copy; <%= new Date().getFullYear() %> <%= companyName %>. All rights reserved.</p>
-    <% if (companyAddress) { %>
-      <p><%= companyAddress %></p>
-    <% } %>
-    <% if (unsubscribeLink) { %>
-      <p><small><a href="<%= unsubscribeLink %>">Unsubscribe</a> | <a href="<%= privacyPolicyLink %>">Privacy Policy</a></small></p>
-    <% } %>
+    <div class="social-links">
+      <a href="https://twitter.com/paycrypt">Twitter</a>
+      <a href="https://facebook.com/paycrypt">Facebook</a>
+      <a href="https://linkedin.com/company/paycrypt">LinkedIn</a>
+      <a href="https://instagram.com/paycrypt">Instagram</a>
+    </div>
+    <p>&copy; <%= new Date().getFullYear() %> Paycrypt. All rights reserved.</p>
+    <p>123 Payment Street, Fintech City, FC 12345</p>
+    <p><small><a href="https://paycrypt.com/unsubscribe">Unsubscribe</a> | <a href="https://paycrypt.com/privacy">Privacy Policy</a></small></p>
   </div>
 </body>
 </html>
-
-<!-- Example data for this template:
-{
-  companyName: "YourCompany",
-  companyLogo: "https://example.com/logo.png",
-  firstName: "John",
-  
-  accountDetails: true,
-  accountType: "Premium",
-  username: "john_doe",
-  accountCreationDate: "April 17, 2025",
-  
-  mainBenefit: "streamline your workflow",
-  
-  step2Title: "Import Your Data",
-  step2Description: "Transfer your existing data and get up and running in minutes.",
-  step3Title: "Schedule a Demo",
-  step3Description: "Book a one-on-one session with our product specialists.",
-  
-  features: [
-    {
-      title: "Cloud Storage",
-      description: "Access your files from anywhere, anytime."
-    },
-    {
-      title: "Team Collaboration",
-      description: "Work together seamlessly with your team."
-    },
-    {
-      title: "Advanced Analytics",
-      description: "Gain insights from comprehensive reports."
-    },
-    {
-      title: "Mobile Access",
-      description: "Stay productive on the go with our mobile app."
-    }
-  ],
-  
-  ctaLink: "https://example.com/dashboard",
-  ctaText: "Access Your Account",
-  
-  supportEmail: "support@yourcompany.com",
-  supportPhone: "+1 (555) 123-4567",
-  helpCenterLink: "https://help.yourcompany.com",
-  
-  socialLinks: {
-    twitter: "https://twitter.com/yourcompany",
-    facebook: "https://facebook.com/yourcompany",
-    linkedin: "https://linkedin.com/company/yourcompany",
-    instagram: "https://instagram.com/yourcompany"
-  },
-  
-  companyAddress: "123 Main Street, City, Country",
-  unsubscribeLink: "https://example.com/unsubscribe?id=123456",
-  privacyPolicyLink: "https://example.com/privacy"
-}
--->

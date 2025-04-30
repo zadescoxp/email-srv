@@ -47,7 +47,7 @@ async function processMessage(msg: ConsumeMessage, channel: Channel) {
 
     // Send email via Resend
     const result = await resend.emails.send({
-      from: "<suarhokya123@gmail.com>",
+      from: "Paycrypt <zadescoxp@gmail.com>",
       to,
       subject,
       html,
